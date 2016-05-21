@@ -45,8 +45,7 @@ The Catkin.sublime-build script has several additional flags that can be passed 
   
 ## Known issues: 
 * Catkin will return question marks to the script where bold text should begin/end. The current workaround for this is the --remove_q flag that removes all question marks from the output.
-* Errors in finding Catkin will not be reported.
-* Repeating error function is based on simple sting matching and far from bulletproof.
+* Repeating error function is based on simple string matching and far from bulletproof.
 * Completely untested in anything that isn't Sublime Text 3 in Ubuntu 16.04, if you are run it on another os let me know if it works or breaks
 
 ## Limitations:
