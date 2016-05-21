@@ -1,8 +1,8 @@
 {
-  "cmd": ["python", "$packages/Catkin-Builder-Sublime/Catkin-Builder.py", "--path", "$file_path"],
+  "cmd": ["python", "$packages/Catkin-Builder/Catkin-Builder.py", "--path", "$file_path"],
 
   "variants": [
-        { "cmd": ["python", "$packages/Catkin-Builder-Sublime/Catkin-Builder.py", "--path", "$file_path", "--build_deps", "True"],
+        { "cmd": ["python", "$packages/Catkin-Builder/Catkin-Builder.py", "--path", "$file_path", "--build_deps", "True"],
           "name": "build dependences"
         }
     ]
