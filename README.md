@@ -2,6 +2,8 @@
 
 Use Catkin build in Sublime Text 3.
 
+![Screenshot](https://raw.githubusercontent.com/ZacharyTaylor/Catkin-Builder/master/screenshot.gif)
+
 ## Prerequisites
 
 Requires **ROS** (http://www.ros.org/install/) and Sublime Text 3
