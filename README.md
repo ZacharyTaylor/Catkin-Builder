@@ -4,7 +4,7 @@ Use Catkin build in Sublime Text 3.
 
 ## Prerequisites
 
-Requires **ROS** (http://www.ros.org/install/)
+Requires **ROS** (http://www.ros.org/install/) and Sublime Text 3
 
 If you can open a terminal, cd to your package directory and run "catkin build <package_name>" without issues, then this plugin shoud work.
 
@@ -21,13 +21,13 @@ If the build process generates errors, the first error encountered will be repri
 ### Package Control
   Not yet part of Package Control (hopfully coming soon).
   
-### Git install:
-Clone the repo to your Sublime Text Packages directory.
-This can be found by opening Sublime and going to Preferences->Browse Packages...
-    
-### Without Git:
-Download the sorce zip and extract to a folder named "Catkin-Bulder-Sublime" in the Sublime Text Packages directory
+### Manual install:
+1. Clone or download a zip of the repo.
+2. Create a zip containing the files with the name "Catkin-Builder" and extension ".sublime-package".
+3. Place in the Sublime Text Installed Packages folder.
 
+**Note** due to a hardcoded path in the build script placing the files unzipped in the Packages folder will not work
+    
 ## Build Variants
 * **Catkin:** builds the package the file it is called from belongs to.
 * **Catkin - build dependencies:** Builds the package and all the packages it depends on.
