@@ -35,10 +35,10 @@ Download the sorce zip and extract to a folder named "Catkin-Bulder-Sublime" in 
 ## Other Options
 The Catkin.sublime-build script has several additional flags that can be passed to the build system
 
-* **color:** Forces output to contain color information (Will only display correctly if additional plugins that allow Sublime Texts build output to support ANSI color)
+* **color:** Forces output to contain color information (will only display correctly if additional plugins that allow Sublime Text's build output to support ANSI color are present)
 * **keep_status:** Keeps all of the status messages that Catkin produces while running (Even if enabled the script will only output these messages once building finishes)
 * **trim_output:** On by default, removes information about the workspace setup and other similar details from Catkins output
-* **remove_q:** On by default, an ugly workaround for an issue encountered with the output of Catkin. Indicators to start bold text appears as question marks in the output. This flag removes all question marks from the output including those that should appear in the text.
+* **remove_q:** On by default, an ugly workaround for an issue encountered with the output of Catkin. Indicators to start bold text appear as question marks in the output. This flag removes all question marks from the output including those that should appear in the text.
 * **repeat_err:** On by default, repeats the first error encountered at the end of the error message.
   
 ## Known issues: 
