@@ -8,7 +8,7 @@ Requires **ROS** (http://www.ros.org/install/)
 
 If you can open a terminal, cd to your package directory and run "catkin build <package_name>" without issues, then this plugin shoud work.
 
-## Usage:
+## Usage
 Switch your build system in Sublime to Catkin by going to Tools -> Build system -> Catkin.
 Build your files using Ctrl+B or Ctrl+Shift+B for build options.
   
