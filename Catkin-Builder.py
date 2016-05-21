@@ -117,6 +117,19 @@ if args.keep_status is False:
 #run build
 output,error = subprocess.Popen(build_command, stdout = subprocess.PIPE, stderr= subprocess.PIPE).communicate()
 
+#check for issues, ignoring tput errors that we can't do anything about
+output_err = ''
+for line in error.splitlines():
+    if 'tput' in line:
+      continue
+    else:
+      output_err += line + '\n'
+
+if len(output_err) is not 0:
+  print(output_err)
+  exit()
+
+
 #remove question marks
 if args.remove_q:
   output = output.replace('?','')
