@@ -14,9 +14,8 @@ Build your files using Ctrl+B or Ctrl+Shift+B for build options.
   
 Can be called on any type of file that is in a Catkin Package.
   
-If the build process encounters an error the process will attempt to reprint the first error last so it can be found more easily (feature can be disabled by changing a flag see Other Options section).
+If the build process generates errors, the first error encountered will be reprinted in a seperate section below the other build errors. This behaviour can be disabled (see Other Options Section below).
   
-
 ## Installing
 
 ### Package Control
