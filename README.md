@@ -8,6 +8,15 @@ Requires **ROS** (http://www.ros.org/install/)
 
 If you can open a terminal, cd to your package directory and run "catkin build <package_name>" without issues, then this plugin shoud work.
 
+## Usage:
+Switch your build system in Sublime to Catkin by going to Tools -> Build system -> Catkin.
+Build your files using Ctrl+B or Ctrl+Shift+B for build options.
+  
+Can be called on any type of file that is in a Catkin Package.
+  
+If the build process encounters an error the process will attempt to reprint the first error last so it can be found more easily (feature can be disabled by changing a flag see Other Options section).
+  
+
 ## Installing
 
 ### Package Control
@@ -20,14 +29,6 @@ This can be found by opening Sublime and going to Preferences->Browse Packages..
 ### Without Git:
 Download the sorce zip and extract to a folder named "Catkin-Bulder-Sublime" in the Sublime Text Packages directory
 
-## Usage:
-Switch your build system in Sublime to Catkin by going to Tools -> Build system -> Catkin.
-Build your files using Ctrl+B or Ctrl+Shift+B for build options.
-  
-Can be called on any type of file that is in a Catkin Package.
-  
-If the build process encounters an error the process will attempt to reprint the first error last so it can be found more easily (feature can be disabled by changing a flag see Other Options section).
-  
 ## Build Variants
 * **Catkin:** builds the package the file it is called from belongs to.
 * **Catkin - build dependencies:** Builds the package and all the packages it depends on.
