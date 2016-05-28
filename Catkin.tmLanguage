@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array>
+		<string>catkin</string>
+		<string></string>
+	</array>
+	<key>name</key>
+	<string>Catkin</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>String</key>
+			<string>Build status</string>
+			<key>match</key>
+			<string>\b(?i:)\b</string>
+			<key>name</key>
+			<string>constant.numeric</string>
+		</dict>
+		<dict>
+			<key>String</key>
+			<string>Files</string>
+			<key>match</key>
+			<string>\S*\.(cc|cp|cxx|c++|cpp|c|h|hh|hxx|hpp|h++|inl|ipp|o|log|dir)</string>
+			<key>name</key>
+			<string>variable.parameter</string>
+		</dict>
+		<dict>
+			<key>String</key>
+			<string>Other symbols</string>
+			<key>match</key>
+			<string>&lt;&lt;&lt;|&lt;&lt;|&gt;&gt;&gt;|&gt;&gt;|\*\*\*</string>
+			<key>name</key>
+			<string>comment</string>
+		</dict>
+		<dict>
+			<key>String</key>
+			<string>Good things</string>
+			<key>match</key>
+			<string>\b(?i:STARTING|FINISHED|SUCCESSFUL)\b</string>
+			<key>name</key>
+			<string>entity.name.function</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Bad things</string>
+			<key>match</key>
+			<string>\b(?i:ERRORS|ERROR|FAILED|)\b</string>
+			<key>name</key>
+			<string>keyword</string>
+		</dict>
+		<dict>
+			<key>String</key>
+			<string>not the best things</string>
+			<key>match</key>
+			<string>\b(?i:WARNINGS)\b</string>
+			<key>name</key>
+			<string>string</string>
+		</dict>
+	</array>
+	<key>scopeName</key>
+	<string>source.log</string>
+</dict>
+</plist>

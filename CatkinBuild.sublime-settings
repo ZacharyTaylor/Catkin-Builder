@@ -1,0 +1,7 @@
+{
+    "color": false,             
+    "status-updates": true,      
+    "trim-output": true,     
+    "replace-q": true,         
+    "repeat-error": true   
+}
