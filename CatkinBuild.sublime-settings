@@ -1,7 +1,17 @@
 {
-    "color": false,             
-    "status-updates": true,      
+    //Forces output to contain ANSI color information (will only display 
+    //correctly if additional plugins that allow Sublime Text's build output to 
+    //support ANSI color are present)
+    "color": false,  
+    //Provides status messages during building           
+    "status-updates": true,   
+    //Removes information about the workspace setup and other similar details 
+    //from Catkins output   
     "trim-output": true,     
-    "replace-q": true,         
+    //An ugly workaround for an issue encountered with the output of Catkin. 
+    //Some symbols appear as question marks in the output. This flag replaces 
+    //all question marks including those that should appear in the text.
+    "replace-q": true,     
+    //Repeats the first error encountered at the end of the error message.    
     "repeat-error": true   
 }
