@@ -6,7 +6,7 @@ Use Catkin build in Sublime Text 3.
 
 ## Prerequisites
 
-Requires **ROS** (http://www.ros.org/install/) and Sublime Text 3
+Requires **ROS** (http://www.ros.org/) and Sublime Text 3
 
 If you can open a terminal, cd to your ROS package directory and run "catkin build <package_name>" without issues, then this plugin should work.
 
@@ -20,8 +20,11 @@ If the build process generates errors, the first error encountered will be repri
   
 ## Installing
 
-### Package Control
-  Not yet part of Package Control (hopefully coming soon).
+### Package Control (Recommended)
+1. If you don't already have it, install Package Control (https://packagecontrol.io/)
+2. Open the Command Palette by pressing ⌘+Shift+P on Mac or Ctrl+Shift+P on Windows
+3. Type in Package Control: Install Package and press Enter
+4. Type Catkin Builder and hit Enter
   
 ### Manual install:
 1. Clone or download a zip of the repo.
