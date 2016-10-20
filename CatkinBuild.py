@@ -52,7 +52,8 @@ class AsyncProcess(object):
                 path).encode(sys.getfilesystemencoding())
 
         proc_env = os.environ.copy()
-        proc_env.update(env)
+        proc_env.update(env)       
+
         for k, v in proc_env.items():
             proc_env[k] = os.path.expandvars(
                 v).encode(sys.getfilesystemencoding())
@@ -272,14 +273,10 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
 
     def process_data(self, proc, data, is_err):
 
-        # check error data
+        # check error data 
         if is_err:
-            # clear tput errors and use to trigger line clearing
-            if 'tput' in data:
-                if self.keep_data:
-                    self.clear_line = True
             # ignore terminal related errors
-            elif (not '$TERM' in data) and not data.isspace():
+            if (not '$TERM' in data) and not data.isspace() and (not 'tput' in data):
                 self.err_msg += data
 
         # check message data
@@ -291,6 +288,7 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
                 self.output_view.run_command("left_delete")
                 self.output_view.run_command(
                     "expand_selection", {"to": "line"})
+                self.output_view.run_command("left_delete")
 
             if self.ready_to_build:
                 # remove junk from output
@@ -303,6 +301,10 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
 
                 self.output_text(proc, data)
             self.out_msg += data
+
+            #if build line delete it so things keep updating
+            if '[build' in data:
+                self.clear_line = True
 
     def output_text(self, proc, text):
 
