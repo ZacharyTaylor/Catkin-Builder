@@ -176,6 +176,9 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
         if self.settings.get("status-updates") is False:
             build_command.append('--no-status')
 
+        if self.settings.get("debug"):
+            build_command.append('--cmake-args -DCMAKE_BUILD_TYPE=Debug')
+
         return build_command
 
     def run(self, working_dir="", build_deps=False, env={}, encoding='utf-8', kill=False, **kwargs):

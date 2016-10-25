@@ -13,5 +13,7 @@
     //all question marks including those that should appear in the text.
     "replace-q": true,     
     //Repeats the first error encountered at the end of the error message.    
-    "repeat-error": true   
+    "repeat-error": true,
+    //Builds with debug flag set
+    "debug": false   
 }

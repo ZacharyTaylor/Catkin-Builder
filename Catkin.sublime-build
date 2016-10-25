@@ -4,6 +4,9 @@
   "variants": [
         { "build_deps": "true",
           "name": "build dependences"
+        },
+        { "debug": "true",
+          "name": "build with debug flag"
         }
     ]
 }
