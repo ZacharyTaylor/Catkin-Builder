@@ -117,8 +117,13 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
             if self.proc:
                 self.proc.kill()
                 self.proc = None
-                self.append_data(None, "[Cancelled]")
-            return
+                return
+
+        #if already running kill and start again
+        if hasattr(self, 'proc'):
+            self.proc.kill()
+            self.proc = None
+
 
         # Setup output window
         self.output_view = self.window.get_output_panel("exec")
