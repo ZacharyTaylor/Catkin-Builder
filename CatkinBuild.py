@@ -59,8 +59,8 @@ class AsyncProcess(object):
                 v).encode(sys.getfilesystemencoding())
 
         self.proc = subprocess.Popen(arg_list, stdout=subprocess.PIPE,
-                                     stderr=subprocess.PIPE, startupinfo=startupinfo, env=proc_env, shell=shell)
-
+                                    stderr=subprocess.PIPE, startupinfo=startupinfo, env=proc_env, shell=shell)
+ 
         if path:
             os.environ["PATH"] = old_path
 
@@ -259,9 +259,7 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
 
         # check error data 
         if is_err:
-            # ignore terminal related errors
-            if (not '$TERM' in data) and not data.isspace() and (not 'tput' in data):
-                self.err_msg += data
+            self.err_msg += data
 
         # check message data
         else:
@@ -278,9 +276,6 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
             trimmed = self.trimOutput(data)
             if self.settings.get("trim-output"):
                 data = trimmed
-            # replace question marks
-            if self.settings.get("replace-q"):
-                data = data.replace('?', '\'')
 
             self.output_text(proc, data)
 
