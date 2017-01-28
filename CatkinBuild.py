@@ -141,7 +141,6 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
         self.out_msg = ''
         self.err_msg = ''
         self.keep_data = False
-        self.ready_to_build = False
         self.keep_output = False
         self.clear_line = False
 
@@ -165,10 +164,10 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
         if self.working_dir != "":
             os.chdir(self.working_dir)
 
-    def genBuildCommand(self, catkin_package):
+    def genBuildCommand(self):
 
         # create build command
-        build_command = ['catkin', 'build', catkin_package]
+        build_command = ['catkin', 'build', '--this']
 
         if self.settings.get("color"):
             build_command.append('--force-color')
@@ -199,7 +198,12 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
         self.setup(kill, env)
 
         # start first process getting package name
-        self.run_async(['catkin', 'list', '--this'])
+        #self.run_async(['catkin', 'list', '--this'])
+        # create build command
+        build_command = self.genBuildCommand()
+
+        # run build
+        self.run_async(build_command)
 
     def run_async(self, cmd):
 
@@ -228,49 +232,21 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
             return True
 
     def finish(self, proc):
+        # check for issues
+        if len(self.err_msg) is not 0:
+            print(self.err_msg)
+            self.output_text(proc, self.err_msg)
+            return
 
-        if not self.ready_to_build:
-            # check for issues
-            if len(self.err_msg) is not 0:
-                self.output_text(proc, self.err_msg)
-                return
-            if len(self.out_msg) is 0:
-                self.output_text(proc, 'Could not find any package in ' +
-                                 self.working_dir + ' to build, exiting')
-                return
+        # find first error
+        output_err, err_free = self.firstErr(self.out_msg)
 
-            # grab package name
-            catkin_package = self.out_msg[2:-1]
-            sublime.status_message('Building ' + catkin_package + '...')
-            self.output_text(proc, 'Building ' +
-                             catkin_package + '...' + '\n\n')
-
-            # create build command
-            build_command = self.genBuildCommand(catkin_package)
-
-            # switch to build stage
-            self.ready_to_build = True
-
-            # run build
-            self.run_async(build_command)
-
+        if(err_free):
+            self.output_text(proc, '\nSUCCESSFUL BUILD')
         else:
-
-            # check for issues
-            if len(self.err_msg) is not 0:
-                print(self.err_msg)
-                self.output_text(proc, self.err_msg)
-                return
-
-            # find first error
-            output_err, err_free = self.firstErr(self.out_msg)
-
-            if(err_free):
-                self.output_text(proc, '\nSUCCESSFUL BUILD')
-            else:
-                if self.settings.get("repeat-error"):
-                    self.output_text(proc, output_err)
-                self.output_text(proc, '\nFAILED BUILD')
+            if self.settings.get("repeat-error"):
+                self.output_text(proc, output_err)
+            self.output_text(proc, '\nFAILED BUILD')
 
     def on_data(self, proc, data, is_err):
         sublime.set_timeout(functools.partial(
@@ -298,16 +274,16 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
                     "expand_selection", {"to": "line"})
                 self.output_view.run_command("left_delete")
 
-            if self.ready_to_build:
-                # remove junk from output
-                trimmed = self.trimOutput(data)
-                if self.settings.get("trim-output"):
-                    data = trimmed
-                # replace question marks
-                if self.settings.get("replace-q"):
-                    data = data.replace('?', '\'')
+            # remove junk from output
+            trimmed = self.trimOutput(data)
+            if self.settings.get("trim-output"):
+                data = trimmed
+            # replace question marks
+            if self.settings.get("replace-q"):
+                data = data.replace('?', '\'')
 
-                self.output_text(proc, data)
+            self.output_text(proc, data)
+
             self.out_msg += data
 
             #if build line delete it so things keep updating
