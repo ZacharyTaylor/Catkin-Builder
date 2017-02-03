@@ -298,7 +298,9 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
         # in memory.
         text = text.replace('\r\n', '\n').replace('\r', '\n')
 
-        self.output_view.run_command("insert", {"characters": text})
+        # Ignore warning about terminal width
+        if not "NOTICE: Could not determine the width of the terminal." in text:
+            self.output_view.run_command("insert", {"characters": text})
 
     def trimOutput(self, str_in):
         if self.settings.get("color"):
