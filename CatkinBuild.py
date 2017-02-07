@@ -124,7 +124,6 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
             self.proc.kill()
             self.proc = None
 
-
         # Setup output window
         self.output_view = self.window.get_output_panel("exec")
         self.output_view.set_syntax_file("Catkin.tmLanguage")
@@ -232,11 +231,11 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
             return True
 
     def finish(self, proc):
+
         # check for issues
         if len(self.err_msg) is not 0:
             print(self.err_msg)
             self.output_text(proc, self.err_msg)
-            return
 
         # find first error
         output_err, err_free = self.firstErr(self.out_msg)
@@ -276,6 +275,9 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
             trimmed = self.trimOutput(data)
             if self.settings.get("trim-output"):
                 data = trimmed
+            # replace question marks
+                if self.settings.get("replace-q"):
+                    data = data.replace('?', '\'')
 
             self.output_text(proc, data)
 
