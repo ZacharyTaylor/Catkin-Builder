@@ -23,7 +23,7 @@
 			<key>String</key>
 			<string>Files</string>
 			<key>match</key>
-			<string>\S*\.(cpp|cp|cc|cxx|c++|c|hh|hxx|hpp|h++|h|inl|ipp|o|log|dir)</string>
+			<string>\S*\.(cmake|cpp|cp|cc|cxx|c++|c|hh|hxx|hpp|h++|h|inl|ipp|o|log|dir)</string>
 			<key>name</key>
 			<string>variable.parameter</string>
 		</dict>
