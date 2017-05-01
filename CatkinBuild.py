@@ -124,7 +124,6 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
             self.proc.kill()
             self.proc = None
 
-
         # Setup output window
         self.output_view = self.window.get_output_panel("exec")
         self.output_view.set_syntax_file("Catkin.tmLanguage")
@@ -141,7 +140,6 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
         self.out_msg = ''
         self.err_msg = ''
         self.keep_data = False
-        self.ready_to_build = False
         self.keep_output = False
         self.clear_line = False
 
@@ -165,13 +163,13 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
         if self.working_dir != "":
             os.chdir(self.working_dir)
 
-    def genBuildCommand(self, catkin_package):
+    def genBuildCommand(self):
 
         # create build command
         if self.run_tests:
-            build_command = ['catkin','run_tests',catkin_package]
+            build_command = ['catkin','run_tests','--this']
         else:
-            build_command = ['catkin','build',catkin_package]
+            build_command = ['catkin','build','--this']
 
         if self.settings.get('color'):
             build_command.append('--force-color')
@@ -203,8 +201,10 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
 
         self.setup(kill, env)
 
-        # start first process getting package name
-        self.run_async(['catkin', 'list', '--this'])
+        build_command = self.genBuildCommand()      
+       
+        # run build        
+        self.run_async(build_command)
 
     def run_async(self, cmd):
 
@@ -234,48 +234,21 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
 
     def finish(self, proc):
 
-        if not self.ready_to_build:
-            # check for issues
-            if len(self.err_msg) is not 0:
-                self.output_text(proc, self.err_msg)
-                return
-            if len(self.out_msg) is 0:
-                self.output_text(proc, 'Could not find any package in ' +
-                                 self.working_dir + ' to build, exiting')
-                return
+        # check for issues
+        if len(self.err_msg) is not 0:
+            print(self.err_msg)
+            self.output_text(proc, self.err_msg)
+            return
 
-            # grab package name
-            catkin_package = self.out_msg[2:-1]
-            sublime.status_message('Building ' + catkin_package + '...')
-            self.output_text(proc, 'Building ' +
-                             catkin_package + '...' + '\n\n')
+        # find first error
+        output_err, err_free = self.firstErr(self.out_msg)
 
-            # create build command
-            build_command = self.genBuildCommand(catkin_package)
-
-            # switch to build stage
-            self.ready_to_build = True
-
-            # run build
-            self.run_async(build_command)
-
+        if(err_free):
+            self.output_text(proc, '\nSUCCESSFUL BUILD')
         else:
-
-            # check for issues
-            if len(self.err_msg) is not 0:
-                print(self.err_msg)
-                self.output_text(proc, self.err_msg)
-                return
-
-            # find first error
-            output_err, err_free = self.firstErr(self.out_msg)
-
-            if(err_free):
-                self.output_text(proc, '\nSUCCESSFUL BUILD')
-            else:
-                if self.settings.get("repeat-error"):
-                    self.output_text(proc, output_err)
-                self.output_text(proc, '\nFAILED BUILD')
+            if self.settings.get("repeat-error"):
+                self.output_text(proc, output_err)
+            self.output_text(proc, '\nFAILED BUILD')
 
     def on_data(self, proc, data, is_err):
         sublime.set_timeout(functools.partial(
@@ -288,9 +261,7 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
 
         # check error data 
         if is_err:
-            # ignore terminal related errors
-            if (not '$TERM' in data) and not data.isspace() and (not 'tput' in data) and (not 'NOTICE: Could not determine the width of the terminal.' in data):
-                self.err_msg += data
+            self.err_msg += data
 
         # check message data
         else:
@@ -303,16 +274,15 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
                     "expand_selection", {"to": "line"})
                 self.output_view.run_command("left_delete")
 
-            if self.ready_to_build:
-                # remove junk from output
-                trimmed = self.trimOutput(data)
-                if self.settings.get("trim-output"):
-                    data = trimmed
-                # replace question marks
-                if self.settings.get("replace-q"):
-                    data = data.replace('?', '\'')
+            # remove junk from output
+            trimmed = self.trimOutput(data)
+            if self.settings.get("trim-output"):
+                data = trimmed
+            # replace question marks
+            if self.settings.get("replace-q"):
+                data = data.replace('?', '\'')
 
-                self.output_text(proc, data)
+            self.output_text(proc, data)
             self.out_msg += data
 
             #if build line delete it so things keep updating
@@ -332,7 +302,9 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
         # in memory.
         text = text.replace('\r\n', '\n').replace('\r', '\n')
 
-        self.output_view.run_command("insert", {"characters": text})
+        # Ignore warning about terminal width
+        if not "NOTICE: Could not determine the width of the terminal." in text:
+            self.output_view.run_command("insert", {"characters": text})
 
     def trimOutput(self, str_in):
         if self.settings.get("color"):
