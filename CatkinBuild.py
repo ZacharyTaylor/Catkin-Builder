@@ -238,7 +238,6 @@ class CatkinBuildCommand(sublime_plugin.WindowCommand, ProcessListener):
         if len(self.err_msg) is not 0:
             print(self.err_msg)
             self.output_text(proc, self.err_msg)
-            return
 
         # find first error
         output_err, err_free = self.firstErr(self.out_msg)
