@@ -15,5 +15,5 @@
     //Repeats the first error encountered at the end of the error message.    
     "repeat-error": true,
     //Builds with debug flag set
-    "debug": false   
+    "debug": false,
 }

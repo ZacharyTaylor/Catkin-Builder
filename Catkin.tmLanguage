@@ -39,7 +39,7 @@
 			<key>String</key>
 			<string>Good things</string>
 			<key>match</key>
-			<string>\b(?i:STARTING|FINISHED|SUCCESSFUL)\b</string>
+			<string>\b(?i:STARTING|FINISHED|SUCCESSFUL|OK)\b</string>
 			<key>name</key>
 			<string>entity.name.function</string>
 		</dict>
@@ -47,7 +47,7 @@
 			<key>comment</key>
 			<string>Bad things</string>
 			<key>match</key>
-			<string>\b(?i:ERRORS|ERROR|FAILED|)\b</string>
+			<string>\b(?i:ERRORS|ERROR|FAILED|FAIL)\b</string>
 			<key>name</key>
 			<string>keyword</string>
 		</dict>

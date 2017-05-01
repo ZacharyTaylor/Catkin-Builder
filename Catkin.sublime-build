@@ -7,6 +7,9 @@
         },
         { "debug": "true",
           "name": "build with debug flag"
+        },
+        { "run_tests": "true",
+          "name": "runs unit tests"
         }
     ]
 }
